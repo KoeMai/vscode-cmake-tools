@@ -319,7 +319,7 @@ export interface ClientInit {
   sourceDir: string;
   binaryDir: string;
   tmpdir: string;
-  generator: CMakeGenerator | null;
+  generator: CMakeGenerator;
 }
 
 interface ClientInitPrivate extends ClientInit {
@@ -347,10 +347,6 @@ export class ServerError extends Error implements ErrorMessage {
     super(e.errorMessage);
   }
   toString(): string { return `[cmake-server] ${this.errorMessage}`; }
-}
-
-export class NoGeneratorError extends Error {
-  message: string = 'No usable generator found.';
 }
 
 export class BadHomeDirectoryError extends Error {
@@ -617,9 +613,6 @@ export class CMakeServerClient {
             } else {
               // Do clean configure, all parameters are required.
               const generator = params.generator;
-              if (!generator) {
-                throw new NoGeneratorError();
-              }
               hsparams.sourceDirectory = params.sourceDir;
               hsparams.generator = generator.name;
               hsparams.platform = generator.platform;
