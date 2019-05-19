@@ -99,7 +99,7 @@ suite('CMake-Server-Driver tests', () => {
     d.dispose();
   }).timeout(60000);
 
-  test.only('Configure fails on invalid prefered generator', async () => {
+  test('Configure fails on invalid prefered generator', async () => {
     const root = getTestRootFilePath('test/unit-tests/cms-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cms-driver/workspace/test_project');
     const vsContext = new FakeContextDefinition();
