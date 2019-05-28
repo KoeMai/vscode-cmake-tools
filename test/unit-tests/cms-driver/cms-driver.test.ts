@@ -54,12 +54,12 @@ suite('CMake-Server-Driver tests', () => {
     expect(fs.existsSync(build_dir)).to.be.false;
   });
 
-  teardown(async function() {
+  teardown(async () => {
     if (driver) {
       await driver.asyncDispose();
       driver = null;
     }
-  })
+  });
 
   test(`All target for ${kitDefault.name}`, async () => {
     const root = getTestRootFilePath('test/unit-tests/cms-driver/workspace');
@@ -248,7 +248,7 @@ suite('CMake-Server-Driver tests', () => {
     const config = ConfigurationReader.createForDirectory(root);
     const executeable = await getCMakeExecutableInformation('cmake');
 
-    const driver = await cms_driver.CMakeServerClientDriver
+    driver = await cms_driver.CMakeServerClientDriver
                        .create(executeable, config, kitDefault, project_root, async () => {}, []);
     await driver.cleanConfigure(['-DEXTRA_ARGS_TEST=Hallo']);
     expect(driver.cmakeCacheEntries.get('extraArgsEnvironment')!.value).to.be.eq('Hallo');
