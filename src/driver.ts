@@ -607,7 +607,7 @@ export abstract class CMakeDriver implements vscode.Disposable {
       cache_init = cache_init_conf;
     }
 
-    let flags: string[] = [];
+    const flags: string[] = [];
     for (let init of cache_init) {
       if (!path.isAbsolute(init)) {
         init = path.join(this.sourceDir, init);
