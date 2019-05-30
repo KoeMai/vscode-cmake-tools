@@ -76,7 +76,7 @@ const DEFAULT_VS_KITS: KitEnvironment[] = [
 
 const DEFAULT_CYGWIN_KITS: KitEnvironment[] = [
   {defaultKit: /^GCC/, expectedDefaultGenerator: /^Unix Makefiles/, path: ['c:\\cygwin64\\bin']},
-  {defaultKit: /^Clang/, expectedDefaultGenerator: /^Unix Makefiles/, path: ['c:\\cygwin64\\bin']}
+ {defaultKit: /^Clang/, expectedDefaultGenerator: /^Unix Makefiles/, path: ['c:\\cygwin64\\bin']}
 ];
 
 const DEFAULT_MINGW_KITS: KitEnvironment[] = [
@@ -115,7 +115,7 @@ const KITS_BY_PLATFORM: {[osName: string]: KitEnvironment[]} = {
     expectedDefaultGenerator: /^Unix Makefiles/,
     path: [' C:\\Program Files\\LLVM\\bin']
   }]),
-  ['Visual Studio 2017']: DEFAULT_VS_KITS,
+  ['Visual Studio 2017']: DEFAULT_VS_KITS.concat(DEFAULT_CYGWIN_KITS, DEFAULT_MINGW_KITS),
   ['Visual Studio 2017 Preview']: DEFAULT_VS_KITS,
   ['Visual Studio 2015']: DEFAULT_VS_KITS,
   ['linux']: [
