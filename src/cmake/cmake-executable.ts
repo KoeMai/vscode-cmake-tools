@@ -8,8 +8,10 @@ export interface CMakeExecutable {
   path: string;
   isPresent: boolean;
   isServerModeSupported?: boolean;
+  isFileApiModSupported?: boolean;
   version?: util.Version;
   minimalServerModeVersion: util.Version;
+  minimalFileApiModeVersion: util.Version;
 }
 
 export async function getCMakeExecutableInformation(path: string): Promise<CMakeExecutable> {
@@ -17,6 +19,7 @@ export async function getCMakeExecutableInformation(path: string): Promise<CMake
     path,
     isPresent: false,
     minimalServerModeVersion: util.parseVersion('3.7.1'),
+    minimalFileApiModeVersion: util.parseVersion('3.15.0'),
   };
 
   if (path.length != 0) {
@@ -33,6 +36,10 @@ export async function getCMakeExecutableInformation(path: string): Promise<CMake
         // We purposefully exclude versions <3.7.1, which have some major CMake
         // server bugs
         cmake.isServerModeSupported = util.versionGreater(cmake.version, cmake.minimalServerModeVersion);
+
+        // Support for new file based API, it replace the server mode
+        cmake.isFileApiModSupported = util.versionGreater(cmake.version, cmake.minimalFileApiModeVersion) ||
+            util.versionEquals(cmake.version, cmake.minimalFileApiModeVersion);
       }
     } catch (ex) {
       if (ex.code != 'ENOENT') {

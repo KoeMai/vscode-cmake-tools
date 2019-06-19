@@ -17,7 +17,7 @@ import * as vscode from 'vscode';
 
 import * as api from './api';
 import {ExecutionOptions, ExecutionResult} from './api';
-import {BadHomeDirectoryError, CodeModelContent} from './cms-client';
+import {BadHomeDirectoryError, CodeModelContent} from '@cmt/drivers/cms-client';
 import {CMakeServerClientDriver, NoGeneratorError} from '@cmt/drivers/cms-driver';
 import {CTestDriver} from './ctest';
 import {BasicTestResults} from './ctest';
@@ -36,6 +36,7 @@ import {Property} from './prop';
 import rollbar from './rollbar';
 import {setContextValue} from './util';
 import {VariantManager} from './variant';
+import { CMakeFileApiDriver } from '@cmt/drivers/cmfileapi-driver';
 
 const open = require('open') as ((url: string, appName?: string, callback?: Function) => void);
 
@@ -267,7 +268,10 @@ export class CMakeTools implements vscode.Disposable, api.CMakeToolsAPI {
     const preferedGenerators = this.getPreferedGenerators();
     const preConditionHandler = async (e: CMakePreconditionProblems) => this.configurePreConditionProblemHandler(e);
     if (this.workspaceContext.config.useCMakeServer) {
-      if (cmake.isServerModeSupported) {
+      if (cmake.isFileApiModSupported) {
+        drv = await CMakeFileApiDriver
+                  .create(cmake, this.workspaceContext.config, kit, workspace, preConditionHandler, preferedGenerators);
+      } else if(cmake.isServerModeSupported) {
         drv = await CMakeServerClientDriver
                   .create(cmake, this.workspaceContext.config, kit, workspace, preConditionHandler, preferedGenerators);
       } else {
