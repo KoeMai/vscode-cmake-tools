@@ -1,6 +1,6 @@
 import {getCMakeExecutableInformation} from '@cmt/cmake/cmake-executable';
-import * as cms_driver from '@cmt/drivers/cms-driver';
 import {ConfigurationReader} from '@cmt/config';
+import * as cms_driver from '@cmt/drivers/cms-driver';
 import * as chai from 'chai';
 import {expect} from 'chai';
 import * as chaiString from 'chai-string';
@@ -51,8 +51,8 @@ suite('CMake-Server-Driver tests', () => {
     if (fs.existsSync(build_dir)) {
       rimraf.sync(build_dir);
     }
-    if(fs.existsSync(build_dir)) {
-      done("Build folder still exists");
+    if (fs.existsSync(build_dir)) {
+      done('Build folder still exists');
     }
     done();
   });
@@ -209,12 +209,9 @@ suite('CMake-Server-Driver tests', () => {
                  .create(executeable, config, kitDefault, project_root, async () => {}, []);
     await driver.cleanConfigure([]);
     expect(driver.cmakeCacheEntries.get('CMAKE_GENERATOR')!.value).to.be.not.eq('Ninja');
-    await driver.asyncDispose();
-    driver = null;
 
-    driver = await cms_driver.CMakeServerClientDriver
-                 .create(executeable, config, kitNinja, project_root, async () => {}, []);
-    expect(await driver.cleanConfigure([])).to.be.eq(0);
+    await driver.setKit(kitNinja, [kitNinja.preferredGenerator!]);
+    expect(await driver.configure([])).to.be.eq(0);
     expect(driver.cmakeCacheEntries.get('CMAKE_GENERATOR')!.value).to.be.eq('Ninja');
   }).timeout(90000);
 
@@ -237,7 +234,7 @@ suite('CMake-Server-Driver tests', () => {
     const executeable = await getCMakeExecutableInformation('cmake');
 
     driver = await cms_driver.CMakeServerClientDriver
-                       .create(executeable, config, kitDefault, project_root, async () => {}, []);
+                 .create(executeable, config, kitDefault, project_root, async () => {}, []);
     await driver.cleanConfigure(['-DEXTRA_ARGS_TEST=Hallo']);
     expect(driver.cmakeCacheEntries.get('extraArgsEnvironment')!.value).to.be.eq('Hallo');
   }).timeout(90000);
