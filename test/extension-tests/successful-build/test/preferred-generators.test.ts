@@ -75,8 +75,7 @@ const DEFAULT_VS_KITS: KitEnvironment[] = [
 ];
 
 const DEFAULT_CYGWIN_KITS: KitEnvironment[] = [
-  {defaultKit: /^GCC/, expectedDefaultGenerator: /^Unix Makefiles/, path: ['c:\\cygwin64\\bin']},
- {defaultKit: /^Clang/, expectedDefaultGenerator: /^Unix Makefiles/, path: ['c:\\cygwin64\\bin']}
+  {defaultKit: /^GCC/, expectedDefaultGenerator: /^Unix Makefiles/, path: ['c:\\cygwin64\\bin']}
 ];
 
 const DEFAULT_MINGW_KITS: KitEnvironment[] = [
@@ -107,7 +106,7 @@ const DEFAULT_MINGW_KITS: KitEnvironment[] = [
   {defaultKit: /^GCC 5.3.0/, expectedDefaultGenerator: /^MinGW Makefiles/, path: ['C:\\MinGW\\bin']}
 ];
 
-const DEFAULT_WINDOWS_KITS: KitEnvironment[] = DEFAULT_VS_KITS.concat(DEFAULT_CYGWIN_KITS, DEFAULT_MINGW_KITS);
+const DEFAULT_WINDOWS_KITS: KitEnvironment[] = DEFAULT_CYGWIN_KITS; //DEFAULT_VS_KITS.concat(DEFAULT_CYGWIN_KITS, DEFAULT_MINGW_KITS);
 
 const KITS_BY_PLATFORM: {[osName: string]: KitEnvironment[]} = {
   ['win32']: DEFAULT_WINDOWS_KITS.concat([{

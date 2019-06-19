@@ -46,19 +46,21 @@ suite('CMake-Server-Driver tests', () => {
     kitNinja = {name: 'GCC', compilers: {C: 'gcc', CXX: 'g++'}, preferredGenerator: {name: 'Ninja'}} as Kit;
   }
 
-  setup(async function(this: Mocha.IBeforeAndAfterContext) {
-    driver = null;
+  setup(async function(this: Mocha.IBeforeAndAfterContext, done) {
     const build_dir = getTestRootFilePath('test/unit-tests/cms-driver/workspace/test_project/build');
     if (fs.existsSync(build_dir)) {
       rimraf.sync(build_dir);
     }
-    expect(fs.existsSync(build_dir)).to.be.false;
+    if(fs.existsSync(build_dir)) {
+      done("Build folder still exists");
+    }
+    done();
   });
 
   teardown(async function(this: Mocha.IBeforeAndAfterContext) {
     this.timeout(20000);
     if (driver) {
-      await driver.asyncDispose();
+      return driver.asyncDispose();
     }
   });
 
