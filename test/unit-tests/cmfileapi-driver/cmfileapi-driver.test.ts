@@ -28,7 +28,7 @@ suite('CMake-FileApi-Driver tests', () => {
       name: 'Visual Studio Community 2017 - amd64',
       visualStudio: 'VisualStudio.15.0',
       visualStudioArchitecture: 'amd64',
-      preferredGenerator: {name: 'Visual Studio 15 2017'}
+      preferredGenerator: {name: 'Visual Studio 15 2017', platform: 'x64'}
     } as Kit;
   } else {
     kitDefault = {name: 'GCC', compilers: {C: 'gcc', CXX: 'g++'}, preferredGenerator: {name: 'Unix Makefiles'}} as Kit;
@@ -68,7 +68,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     driver = await cmfile_driver.CMakeFileApiDriver
                  .create(executeable, config, kitDefault, project_root, async () => {}, []);
@@ -84,7 +84,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     driver = await cmfile_driver.CMakeFileApiDriver
                  .create(executeable, config, kitDefault, project_root, async () => {}, []);
@@ -95,7 +95,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     driver = await cmfile_driver.CMakeFileApiDriver
                  .create(executeable, config, kitDefault, project_root, async () => {}, []);
@@ -111,7 +111,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     const kit = {name: 'GCC', preferredGenerator: {name: 'BlaBla'}} as Kit;
 
@@ -124,7 +124,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/empty_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     let called = false;
     const checkPreconditionHelper = async (e: CMakePreconditionProblems) => {
@@ -141,7 +141,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     let called = false;
     const checkPreconditionHelper = async (e: CMakePreconditionProblems) => {
@@ -162,7 +162,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     let called = false;
     const checkPreconditionHelper = async (e: CMakePreconditionProblems) => {
@@ -184,7 +184,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     driver = await cmfile_driver.CMakeFileApiDriver
                  .create(executeable, config, kitNinja, project_root, async () => {}, []);
@@ -203,7 +203,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     driver = await cmfile_driver.CMakeFileApiDriver
                  .create(executeable, config, kitDefault, project_root, async () => {}, []);
@@ -219,7 +219,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     driver = await cmfile_driver.CMakeFileApiDriver
                  .create(executeable, config, kitDefault, project_root, async () => {}, []);
@@ -231,7 +231,7 @@ suite('CMake-FileApi-Driver tests', () => {
     const root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace');
     const project_root = getTestRootFilePath('test/unit-tests/cmfileapi-driver/workspace/test_project');
     const config = ConfigurationReader.createForDirectory(root);
-    const executeable = await getCMakeExecutableInformation('cmake');
+    const executeable = await getCMakeExecutableInformation('C:\\Users\\kristina\\Downloads\\cmake-3.15.0-rc1-win64-x64\\cmake-3.15.0-rc1-win64-x64\\bin\\cmake.exe');
 
     driver = await cmfile_driver.CMakeFileApiDriver
                  .create(executeable, config, kitDefault, project_root, async () => {}, []);
