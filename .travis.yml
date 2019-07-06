@@ -41,5 +41,5 @@ deploy:
   draft: true
   on:
     repo: KoeMai/vscode-cmake-tools
-    branch: test_cmakefile_api
+    branch: develop
     tag: true
