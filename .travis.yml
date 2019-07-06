@@ -1,41 +1,45 @@
 language: cpp
-
 os:
-  - osx
-  - linux
-
+- osx
+- linux
 compiler:
-  - gcc
-
+- gcc
 dist: trusty
 sudo: false
 addons:
   apt:
     sources:
-      - sourceline: deb [arch=amd64] https://packages.microsoft.com/ubuntu/14.04/prod trusty main
-        key_url: https://packages.microsoft.com/keys/microsoft.asc
+    - sourceline: deb [arch=amd64] https://packages.microsoft.com/ubuntu/14.04/prod
+        trusty main
+      key_url: https://packages.microsoft.com/keys/microsoft.asc
     packages:
-      - powershell
-      - gdb
-
+    - powershell
+    - gdb
 before_install:
-  - |
-    nvm install 8.9.3 || exit 2
-    if [ $TRAVIS_OS_NAME == "linux" ]; then
-      export DISPLAY=:99.0
-      sh -e /etc/init.d/xvfb start
-      sleep 3
-    else
-      curl https://github.com/PowerShell/PowerShell/releases/download/v6.1.1/powershell-6.1.1-osx-x64.pkg -Lo /tmp/pwsh.pkg || exit 2
-      sudo installer -pkg /tmp/pwsh.pkg -target / || exit 2
-    fi
-
+- |
+  nvm install 8.9.3 || exit 2
+  if [ $TRAVIS_OS_NAME == "linux" ]; then
+    export DISPLAY=:99.0
+    sh -e /etc/init.d/xvfb start
+    sleep 3
+  else
+    curl https://github.com/PowerShell/PowerShell/releases/download/v6.1.1/powershell-6.1.1-osx-x64.pkg -Lo /tmp/pwsh.pkg || exit 2
+    sudo installer -pkg /tmp/pwsh.pkg -target / || exit 2
+  fi
 script: pwsh -NonInteractive -NoProfile -NoLogo scripts/ci.ps1
 
-notifications:
-  webhooks:
-    - https://webhooks.gitter.im/e/064f3494f67de1248aa0
-    - https://webhooks.gitter.im/e/cfff11fc076f431c1edf
-  email:
-    on_success: change
-    on_failure: always
+after_success:
+- npm install -g vsce;
+- vsce package;
+deploy:
+  provider: releases
+  api_key:
+    secure: PecAuSOuLvV7QLz2csrnzo71MsmdS1qBQWLDEEB9zTQqL3AQ5BTrbOdUfUFVTK32s3+8D4dZVSrFOrUbTPDcHZ+1woj5MuFoE/xPhLjvcRfnBdQjDk135/+NZqUCr0CECVjh1E3LSgPsjU/wIWqKTFCwWnI1QmoKZROgoZOZvrmZRrJQhp+QD0gKT6ZOi/fzRTtatQMvNiUEUAfNiXawv4IYyOn6+VoOawnb59jd1pCz9OA+XDcamle9JdxrOdS5iCZiR6VL8ebMuB6KNToOHa6MPDsAodWLvKr2IdJcsbJGzylf8cL1atdJQiB0S1fGy/jjnHmtfRTx6+ysCoQpK+mTf7RUpoYW6JCdJuhcnlWXrQHjCnJ1HPMsdSnP/t8382X/84ZPUA/Qd61Z0mT1omJhJDqnN1oyTMnfnU7HrbCVm9iX0rgrLj9WfE5hJIgM5hao2bPWNfxHS9ibeXtO/9/e+V2KQYOWIrBYhGlGCfoDqadoQa0w7+MnP4xBCZIT9QhaTuoB4qG6h8n7Gh5uMGcYKLxAfsvwfSfg4wGBepcnjiRGsy14L+ZCf7nM8rKtQG/SA/A5flws95okX6nwLyzIm4NGUckk24ESmzwI97TzH3JWcngaEEM8Ac7LfS9BrVeayvXvNBjxZ1a9oNluOUHKmHZE+oIwRjlUCVPYVZY=
+  file_glob: true
+  file: "*.vsix"
+  skip_cleanup: true
+  draft: true
+  on:
+    repo: KoeMai/vscode-cmake-tools
+    branch: test_cmakefile_api
+    tag: true
