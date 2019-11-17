@@ -1,6 +1,6 @@
 import {getCMakeExecutableInformation} from '@cmt/cmake/cmake-executable';
-import * as cms_driver from '@cmt/drivers/cms-driver';
 import {ConfigurationReader} from '@cmt/config';
+import * as cms_driver from '@cmt/drivers/cms-driver';
 import * as chai from 'chai';
 import {expect} from 'chai';
 import * as chaiString from 'chai-string';
@@ -29,7 +29,7 @@ let driver: CMakeDriver|null = null;
 // tslint:disable:no-unused-expression
 
 suite('CMake-Server-Driver tests', () => {
-  const cmakePath: string = process.env.CMAKE_EXECUTABLE? process.env.CMAKE_EXECUTABLE: 'cmake';
+  const cmakePath: string = process.env.CMAKE_EXECUTABLE ? process.env.CMAKE_EXECUTABLE : 'cmake';
   const workspacePath: string = 'test/unit-tests/cms-driver/workspace';
   const root = getTestRootFilePath(workspacePath);
   const defaultWorkspaceFolder = getTestRootFilePath('test/unit-tests/cms-driver/workspace/test_project');
@@ -137,7 +137,8 @@ suite('CMake-Server-Driver tests', () => {
     const kit = {name: 'GCC', preferredGenerator: {name: 'BlaBla'}} as Kit;
 
     // tslint:disable-next-line: no-floating-promises
-    expect(cms_driver.CMakeServerClientDriver.create(executable, config, kit, defaultWorkspaceFolder, async () => {}, []))
+    expect(
+        cms_driver.CMakeServerClientDriver.create(executable, config, kit, defaultWorkspaceFolder, async () => {}, []))
         .to.be.rejectedWith('No usable generator found.');
   }).timeout(60000);
 
@@ -210,7 +211,7 @@ suite('CMake-Server-Driver tests', () => {
 
     let called = false;
     const checkPreconditionHelper = async (e: CMakePreconditionProblems) => {
-      if(e == CMakePreconditionProblems.BuildIsAlreadyRunning) {
+      if (e == CMakePreconditionProblems.BuildIsAlreadyRunning) {
         called = true;
       }
     };
@@ -231,7 +232,7 @@ suite('CMake-Server-Driver tests', () => {
 
     let called = false;
     const checkPreconditionHelper = async (e: CMakePreconditionProblems) => {
-      if(e == CMakePreconditionProblems.ConfigureIsAlreadyRunning) {
+      if (e == CMakePreconditionProblems.ConfigureIsAlreadyRunning) {
         called = true;
       }
     };
@@ -252,7 +253,7 @@ suite('CMake-Server-Driver tests', () => {
 
     let called = false;
     const checkPreconditionHelper = async (e: CMakePreconditionProblems) => {
-      if(e == CMakePreconditionProblems.BuildIsAlreadyRunning) {
+      if (e == CMakePreconditionProblems.BuildIsAlreadyRunning) {
         called = true;
       }
     };
@@ -273,7 +274,7 @@ suite('CMake-Server-Driver tests', () => {
 
     let called = false;
     const checkPreconditionHelper = async (e: CMakePreconditionProblems) => {
-      if(e == CMakePreconditionProblems.ConfigureIsAlreadyRunning) {
+      if (e == CMakePreconditionProblems.ConfigureIsAlreadyRunning) {
         called = true;
       }
     };
@@ -294,7 +295,7 @@ suite('CMake-Server-Driver tests', () => {
 
     let called = false;
     const checkPreconditionHelper = async (e: CMakePreconditionProblems) => {
-      if(e == CMakePreconditionProblems.BuildIsAlreadyRunning) {
+      if (e == CMakePreconditionProblems.BuildIsAlreadyRunning) {
         called = true;
       }
     };
@@ -335,7 +336,7 @@ suite('CMake-Server-Driver tests', () => {
     await driver.cleanConfigure([]);
     expect(driver.cmakeCacheEntries.get('CMAKE_GENERATOR')!.value).to.be.not.eq('Ninja');
 
-    await driver.setKit(kitNinja, [{name:'Ninja'}]);
+    await driver.setKit(kitNinja, [{name: 'Ninja'}]);
     expect(await driver.configure([])).to.be.eq(0);
     expect(driver.cmakeCacheEntries.get('CMAKE_GENERATOR')!.value).to.be.eq('Ninja');
   }).timeout(90000);
@@ -355,8 +356,20 @@ suite('CMake-Server-Driver tests', () => {
     const executable = await getCMakeExecutableInformation(cmakePath);
 
     driver = await cms_driver.CMakeServerClientDriver
-                       .create(executable, config, kitDefault, defaultWorkspaceFolder, async () => {}, []);
+                 .create(executable, config, kitDefault, defaultWorkspaceFolder, async () => {}, []);
     await driver.cleanConfigure(['-DEXTRA_ARGS_TEST=Hallo']);
     expect(driver.cmakeCacheEntries.get('extraArgsEnvironment')!.value).to.be.eq('Hallo');
   }).timeout(90000);
+
+  test.only('Test executable targets', async () => {
+        const config = ConfigurationReader.createForDirectory(root);
+        const executable = await getCMakeExecutableInformation(cmakePath);
+
+        driver = await cms_driver.CMakeServerClientDriver
+                     .create(executable, config, kitDefault, defaultWorkspaceFolder, async () => {}, []);
+        await driver.configure([]);
+        const targets = driver.executableTargets;
+        expect(targets.length).to.be.eq(1);
+        expect(targets[0].name).to.be.eq('TestBuildProcess');
+      }).timeout(90000);
 });
