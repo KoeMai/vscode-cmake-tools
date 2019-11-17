@@ -361,7 +361,7 @@ suite('CMake-Server-Driver tests', () => {
     expect(driver.cmakeCacheEntries.get('extraArgsEnvironment')!.value).to.be.eq('Hallo');
   }).timeout(90000);
 
-  test.only('Test executable targets', async () => {
+  test('Test executable targets', async () => {
         const config = ConfigurationReader.createForDirectory(root);
         const executable = await getCMakeExecutableInformation(cmakePath);
 
